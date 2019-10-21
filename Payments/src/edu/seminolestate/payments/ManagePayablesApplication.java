@@ -172,7 +172,7 @@ public class ManagePayablesApplication {
 				
 			}
 			if(input == 3) {
-				try
+				try {}
 			}
 		}
 	}
