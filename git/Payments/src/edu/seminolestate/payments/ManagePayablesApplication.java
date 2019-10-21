@@ -1,10 +1,15 @@
 package edu.seminolestate.payments;
+import java.text.NumberFormat;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import edu.seminolestate.bill.*;
 import edu.seminolestate.payable.*;
 import edu.seminolestate.employees.*;
+import edu.seminolestate.exceptions.InvalidArgumentException;
 
 public class ManagePayablesApplication {
 	public static void displayMenu() {
@@ -17,6 +22,7 @@ public class ManagePayablesApplication {
 	}
 	
 	public static void main(String[] args) {
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		ArrayList<Payable> list = new ArrayList<Payable>();
 		Scanner sc = new Scanner(System.in);
 		int input = 0;
@@ -32,6 +38,12 @@ public class ManagePayablesApplication {
 		int hoursWorked = 0;
 		int payRate = 0;
 		int annualSalary = 0;
+		int vendorNameInt = 0;
+		int amountDueInt = 0;
+		int dueDateInt = 0;
+		String vendorName = "";
+		int amountDue = 0;
+		LocalDate dueDate = LocalDate.parse("2001-01-01");
 		
 		while(true) {
 			if(input == 0) {
@@ -173,7 +185,59 @@ public class ManagePayablesApplication {
 			}
 			
 			if(input == 3) {
+				while(vendorNameInt == 0) {
+					try {
+						System.out.println("Enter a vendor name");
+						vendorName = sc.next();
+						if(vendorName.length() < 1 || vendorName == null) {
+							throw new Exception();
+						}
+						vendorNameInt = 1;
+					} catch(Exception e) {
+						System.out.println("Enter a valid name");
+					}
+				}
 				
+				while(amountDueInt == 0) {
+					try {
+						System.out.println("Enter a amount due");
+						amountDue = sc.nextInt();
+						if(amountDue <= 0) {
+							throw new Exception();
+						}
+						amountDueInt = 1;
+					} catch(Exception e) {
+						System.out.println("Enter a valid amount due");
+					}
+				}
+				
+				
+				while(dueDateInt == 0) {
+					try {
+						System.out.println("Enter a due date FORMAT: 2000-01-01");
+						String userDate = sc.next();
+						dueDate = LocalDate.parse(userDate);
+						dueDateInt = 1;
+					} catch(DateTimeParseException e) {
+						System.out.println("Enter a valid date");
+					}
+				}
+					
+				Bill bill = new Bill(vendorName, amountDue, dueDate);
+				list.add(bill);
+		
+			}
+			
+			if(input == 4) {
+				for(Payable payables : list) {
+					System.out.println(payables.toString());
+					System.out.println(formatter.format(payables.computeAmountToPay()));
+				}
+			}
+			
+			if(input == 5) {
+				System.out.println("bye");
+				System.exit(0);
 			}
 		}
 	}
