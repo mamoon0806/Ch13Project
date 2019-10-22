@@ -1,3 +1,5 @@
+//Qazi Ulhaq 10/22/19
+
 package edu.seminolestate.payments;
 import java.text.NumberFormat;
 import java.time.DateTimeException;
@@ -71,6 +73,7 @@ public class ManagePayablesApplication {
 							 firstNameInt = 1;
 						} catch(Exception e) {
 							System.out.println("Enter a valid first name");
+							firstNameInt = 0;
 						}
 					}
 					
@@ -84,17 +87,20 @@ public class ManagePayablesApplication {
 							 lastNameInt = 1;
 						} catch(Exception e) {
 							System.out.println("Enter a valid last name");
+							lastNameInt = 0;
 						}
 					}
 					
 					while(idInt == 0) {
 						try {
 							System.out.println("Enter an ID");
-							 id = sc.nextInt();
-							 if(id <= 0) {
+							id = Integer.parseInt(sc.next());
+							
+							if(id <= 0) {
 								 throw new Exception();
-							 }
-							 idInt = 1;
+							}
+							
+							idInt = 1;
 						} catch(Exception e) {
 							System.out.println("Enter a valid ID");
 							idInt = 0;
@@ -104,7 +110,7 @@ public class ManagePayablesApplication {
 					while(hoursWorkedInt == 0) {
 						try {
 							System.out.println("Enter the hours worked");
-							 hoursWorked = sc.nextInt();
+							 hoursWorked = Integer.parseInt(sc.next());
 							 if(hoursWorked <= 0) {
 								 throw new Exception();
 							 }
@@ -117,7 +123,7 @@ public class ManagePayablesApplication {
 					while(payRateInt == 0) {
 						try {
 							System.out.println("Enter the pay rate");
-							 payRate = sc.nextInt();
+							 payRate = Integer.parseInt(sc.next());
 							 if(payRate <= 0) {
 								 throw new Exception();
 							 }
@@ -129,8 +135,13 @@ public class ManagePayablesApplication {
 					
 					HourlyEmployee employee = new HourlyEmployee(firstName, lastName, id, hoursWorked, payRate);
 					list.add(employee);
+					firstNameInt = 0;
+					lastNameInt = 0;
+					idInt = 0;
+					hoursWorkedInt = 0;
+					payRateInt = 0;
 					input=0;
-				} catch(Exception e) {
+				} catch(InputMismatchException e) {
 					System.out.println("Error: please enter valid data");
 					input = 1;
 				}
@@ -168,7 +179,7 @@ public class ManagePayablesApplication {
 					while(idInt == 0) {
 						try {
 							System.out.println("Enter an ID");
-							 id = sc.nextInt();
+							 id = Integer.parseInt(sc.next());
 							 if(id <= 0) {
 								 throw new Exception();
 							 }
@@ -181,7 +192,7 @@ public class ManagePayablesApplication {
 					while(annualSalaryInt == 0) {
 						try {
 							System.out.println("Enter the annual salary");
-							 annualSalary = sc.nextInt();
+							 annualSalary = Integer.parseInt(sc.next());
 							 if(annualSalary <= 0) {
 								 throw new Exception();
 							 }
@@ -190,6 +201,13 @@ public class ManagePayablesApplication {
 							System.out.println("Enter a valid annual salary");
 						}
 					}
+					
+					Manager manager = new Manager(firstName, lastName, id, annualSalary);
+					list.add(manager);
+					firstNameInt = 0;
+					lastNameInt = 0;
+					idInt = 0;
+					annualSalaryInt = 0;
 					input = 0;
 					
 				}
@@ -213,7 +231,7 @@ public class ManagePayablesApplication {
 				while(amountDueInt == 0) {
 					try {
 						System.out.println("Enter a amount due");
-						amountDue = sc.nextInt();
+						amountDue = Integer.parseInt(sc.next());
 						if(amountDue <= 0) {
 							throw new Exception();
 						}
@@ -238,6 +256,9 @@ public class ManagePayablesApplication {
 				Bill bill = new Bill(vendorName, amountDue, dueDate);
 				list.add(bill);
 				input = 0;
+				vendorNameInt = 0;
+				amountDueInt = 0;
+				dueDateInt = 0;
 			}
 			
 			if(input == 4) {
